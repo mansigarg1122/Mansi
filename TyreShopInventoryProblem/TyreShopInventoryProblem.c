@@ -9,48 +9,48 @@ int generate_demand()
 }
 int main()
 {
-    int P, Q, stock, today, dueDate, unitsDue, startDate, demand, reorderCost;
-    float total_cost;
+    int P, Q, stock, today, dueDt, unitsLeft, startDt, demand, reorderCst;
+    float total;
 
     for (int i = 0; i < 5; i++)
     {
         printf("Input the values for P and Q:\n");
         scanf("%d %d", &P, &Q);
-        startDate = 1;
-        dueDate = 0;
-        today = startDate;
-        unitsDue = 0;
-        reorderCost = 10;
+        startDt = 1;
+        dueDt = 0;
+        today = startDt;
+        unitsLeft = 0;
+        reorderCst = 10;
         stock = 115;
-        total_cost = 0;
+        total = 0;
 
         while (today <= 180)
         {
-            if (today == dueDate)
+            if (today == dueDt)
             {
                 stock += Q;
-                unitsDue = 0;
+                unitsLeft = 0;
             }
             demand = generate_demand();
             if (demand <= stock)
             {
                 stock -= demand;
-                total_cost += stock * 0.75;
+                total += stock * 0.75;
             }
             else
             {
-                total_cost += (demand - stock) * 18;
+                total += (demand - stock) * 18;
                 stock = 0;
             }
-            if (stock + unitsDue <= P)
+            if (stock + unitsLeft <= P)
             {
-                unitsDue = Q;
-                total_cost += reorderCost * unitsDue;
-                dueDate = today + 3;
+                unitsLeft = Q;
+                total += reorderCst * unitsLeft;
+                dueDt = today + 3;
             }
             today++;
         }
-        printf("Total Cost for P=%d and Q=%d is %f\n", P, Q, total_cost);
+        printf("Total Cost for P=%d and Q=%d is %.2f\n", P, Q, total);
     }
     return 0;
 }
